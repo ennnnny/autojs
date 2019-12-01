@@ -18,15 +18,17 @@ if (textContains("赚翻倍豆").exists()) {
     textContains("做任务赚翻倍豆").waitFor();
     var wait_num = 1;
     while (true) {
-        if (textContains("+1000").exists()) {
+        if (textEndsWith("+1000").exists()) {
             task_click();
+            task_num++;
+            toast("第" + task_num + "个");
             continue;
         }
         wait_num++;
         if (wait_num > 5) {
             break;
         } else {
-            swipe(width / 2, height - 50, width / 2, 0, 500);
+            swipe(width / 2, height / 2 + 300, width / 2, height / 2, 500);
         }
     }
     back_try();
@@ -51,8 +53,7 @@ function task_click() {
     if (text("再玩玩").exists()) {
         text("再玩玩").findOne().click();
     }
-    textContains("+1000").findOne().click();
-    toast("第" + (task_num++) + "个");
+    textEndsWith("+1000").findOne().click();
     var time = random(3000, 5000);
     sleep(time);
     back_try();
