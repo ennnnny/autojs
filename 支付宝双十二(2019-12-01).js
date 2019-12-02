@@ -16,6 +16,7 @@ if (textContains("赚翻倍豆").exists()) {
     textContains("赚翻倍豆").click();
     var task_num = 0;
     textContains("做任务赚翻倍豆").waitFor();
+    var b = textContains("做任务赚翻倍豆").findOne().bounds();
     var wait_num = 1;
     while (true) {
         if (textEndsWith("+1000").exists()) {
@@ -34,7 +35,7 @@ if (textContains("赚翻倍豆").exists()) {
     back_try();
     toast("做任务赚翻倍豆结束");
     toast("此次共赚" + task_num * 1000 + "个翻倍豆");
-    click(1000, 725);
+    click(width - 70, b.centerY());
 
     if (click_num != null && click_num != "" && click_num != 0) {
         if (textContains("赚翻倍豆").exists()) {
@@ -92,6 +93,12 @@ function back_try() {
         }
         if (text("取消").exists()) {
             text("取消").findOne().click();
+        }
+        if (text("取消").exists()) {
+            text("取消").findOne().click();
+        }
+        if (textContains("授权").exists()) {
+            textContains("授权").findOne().click();
         }
         back();
         sleep(1000);
