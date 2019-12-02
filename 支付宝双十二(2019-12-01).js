@@ -73,6 +73,7 @@ function red_packet(click_num) {
         textContains("继续玩").click();
         i++;
         toast("第" + i + "次");
+        click(300, 300);
     }
     toast('结束点击红包');
 }
