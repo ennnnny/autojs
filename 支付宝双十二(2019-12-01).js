@@ -4,6 +4,7 @@ var width = device.width;
 toast("\n设备宽" + width + "\n" + "设备高" + height + "\n" + "手机型号" + device.model + "\n安卓版本" + device.release);
 setScreenMetrics(width, height);
 
+var is_task = confirm("是否要做任务赚豆豆?");
 var click_num = dialogs.rawInput("请输入点击红包的次数(留空为取消)", "");
 if (isNaN(click_num)) {
     toast("输入有误，不执行点击红包!");
@@ -12,30 +13,39 @@ if (isNaN(click_num)) {
 click(300, 300);
 
 if (textContains("赚翻倍豆").exists()) {
-    toast('开始赚翻倍豆');
-    textContains("赚翻倍豆").click();
-    var task_num = 0;
-    textContains("做任务赚翻倍豆").waitFor();
-    var b = textContains("做任务赚翻倍豆").findOne().bounds();
-    var wait_num = 1;
-    while (true) {
-        if (textEndsWith("+1000").exists()) {
-            task_click();
-            task_num++;
-            toast("第" + task_num + "个");
-            continue;
+    if (is_task) {
+        toast('开始赚翻倍豆');
+        textContains("赚翻倍豆").click();
+        var task_num = 0;
+        textContains("做任务赚翻倍豆").waitFor();
+        var b = textContains("做任务赚翻倍豆").findOne().bounds();
+        var wait_num = 1;
+        var find_num = 0;
+        while (true) {
+            let item = textEndsWith("+1000").findOnce(find_num);
+            if (item != null) {
+                if (item.parent().child(2).text() != "已完成") {
+                    task_click(find_num);
+                    task_num++;
+                    toast("第" + task_num + "个");
+                    find_num = 0;
+                } else {
+                    find_num++;
+                }
+                continue;
+            }
+            wait_num++;
+            if (wait_num > 5) {
+                break;
+            } else {
+                swipe(width / 2, height / 2 + 300, width / 2, height / 2, 500);
+            }
         }
-        wait_num++;
-        if (wait_num > 5) {
-            break;
-        } else {
-            swipe(width / 2, height / 2 + 300, width / 2, height / 2, 500);
-        }
+        back_try();
+        toast("做任务赚翻倍豆结束");
+        toast("此次共赚" + task_num * 1000 + "个翻倍豆");
+        click(width - 70, b.centerY());
     }
-    back_try();
-    toast("做任务赚翻倍豆结束");
-    toast("此次共赚" + task_num * 1000 + "个翻倍豆");
-    click(width - 70, b.centerY());
 
     if (click_num != null && click_num != "" && click_num != 0) {
         if (textContains("赚翻倍豆").exists()) {
@@ -50,12 +60,13 @@ if (textContains("赚翻倍豆").exists()) {
 
 toast("脚本结束");
 
-function task_click() {
+function task_click(find_num) {
     if (text("再玩玩").exists()) {
         text("再玩玩").findOne().click();
     }
-    textEndsWith("+1000").findOne().click();
-    var time = random(3000, 5000);
+    let item = textEndsWith("+1000").findOnce(find_num);
+    item.parent().child(2).click();
+    let time = random(3000, 5000);
     sleep(time);
     back_try();
 }
