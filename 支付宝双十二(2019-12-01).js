@@ -10,12 +10,15 @@ if (isNaN(click_num)) {
     toast("输入有误，不执行点击红包!");
     click_num = "";
 }
-click(300, 300);
+click(300, 600);
 
-if (textContains("赚翻倍豆").exists()) {
+if (textContains("我要变大红包").exists()) {
+    var red_package_temp = className("android.widget.Image").depth(14).findOne();
+    var red_package = red_package_temp.parent().child(3).bounds();
+    
     if (is_task) {
-        toast('开始赚翻倍豆');
-        textContains("赚翻倍豆").click();
+        textContains("我要变大红包").click();
+
         var task_num = 0;
         textContains("做任务赚翻倍豆").waitFor();
         var b = textContains("做任务赚翻倍豆").findOne().bounds();
@@ -48,8 +51,8 @@ if (textContains("赚翻倍豆").exists()) {
     }
 
     if (click_num != null && click_num != "" && click_num != 0) {
-        if (textContains("赚翻倍豆").exists()) {
-            red_packet(click_num);
+        if (textContains("我要变大红包").exists()) {
+            red_packet(red_package, click_num);
         } else {
             toast("位置异常，未能点击红包!");
         }
@@ -71,14 +74,15 @@ function task_click(find_num) {
     back_try();
 }
 
-function red_packet(click_num) {
+function red_packet(red_package, click_num) {
     toast('开始点击红包');
     var i = 0;
     while (true) {
         if (i >= click_num) {
             break;
         }
-        press(556, 922, random(3000, 5000));
+        // press(556, 922, random(3000, 5000));
+        press(red_package.centerX(), red_package.centerY(), random(3000, 5000));
         sleep(1000);
         textContains("继续玩").waitFor();
         sleep(1000);
