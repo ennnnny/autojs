@@ -12,12 +12,12 @@ if (isNaN(click_num)) {
 }
 click(300, 600);
 
-if (textContains("我要变大红包").exists()) {
+if (textContains("今日翻倍豆奖励变大").exists()) {
     var red_package_temp = className("android.widget.Image").depth(14).findOne();
     var red_package = red_package_temp.parent().child(3).bounds();
     
     if (is_task) {
-        textContains("我要变大红包").click();
+        textContains("今日翻倍豆奖励变大").click();
 
         var task_num = 0;
         textContains("做任务赚翻倍豆").waitFor();
@@ -51,7 +51,7 @@ if (textContains("我要变大红包").exists()) {
     }
 
     if (click_num != null && click_num != "" && click_num != 0) {
-        if (textContains("我要变大红包").exists()) {
+        if (textContains("今日翻倍豆奖励变大").exists()) {
             red_packet(red_package, click_num);
         } else {
             toast("位置异常，未能点击红包!");
