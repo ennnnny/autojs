@@ -25,7 +25,7 @@ if (textContains("我要变大红包").exists()) {
         var wait_num = 1;
         var find_num = 0;
         while (true) {
-            let item = textEndsWith("+1000").findOnce(find_num);
+            let item = textEndsWith("+2000").findOnce(find_num);
             if (item != null) {
                 if (item.parent().child(2).text() != "已完成") {
                     task_click(find_num);
@@ -46,7 +46,7 @@ if (textContains("我要变大红包").exists()) {
         }
         back_try();
         toast("做任务赚翻倍豆结束");
-        toast("此次共赚" + task_num * 1000 + "个翻倍豆");
+        toast("此次共赚" + task_num * 2000 + "个翻倍豆");
         click(width - 70, b.centerY());
     }
 
@@ -67,7 +67,7 @@ function task_click(find_num) {
     if (text("再玩玩").exists()) {
         text("再玩玩").findOne().click();
     }
-    let item = textEndsWith("+1000").findOnce(find_num);
+    let item = textEndsWith("+2000").findOnce(find_num);
     item.parent().child(2).click();
     let time = random(3000, 5000);
     sleep(time);
