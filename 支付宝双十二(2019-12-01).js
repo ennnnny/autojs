@@ -12,12 +12,13 @@ if (isNaN(click_num)) {
 }
 click(300, 600);
 
-if (textContains("今日翻倍豆奖励变大").exists()) {
+var button = is_index();
+if (button != null) {
     var red_package_temp = className("android.widget.Image").depth(14).findOne();
     var red_package = red_package_temp.parent().child(3).bounds();
     
     if (is_task) {
-        textContains("今日翻倍豆奖励变大").click();
+        button.click();
 
         var task_num = 0;
         textContains("做任务赚翻倍豆").waitFor();
@@ -51,7 +52,8 @@ if (textContains("今日翻倍豆奖励变大").exists()) {
     }
 
     if (click_num != null && click_num != "" && click_num != 0) {
-        if (textContains("今日翻倍豆奖励变大").exists()) {
+        var button_2 = is_index();
+        if (button_2 != null) {
             red_packet(red_package, click_num);
         } else {
             toast("位置异常，未能点击红包!");
@@ -62,6 +64,24 @@ if (textContains("今日翻倍豆奖励变大").exists()) {
 }
 
 toast("脚本结束");
+
+function is_index() {
+    if (textContains("翻倍豆限时加量").exists()) {
+        return textContains("翻倍豆限时加量");
+    } else {
+        if (textContains("我的翻倍豆").exists()) {
+            let one = textContains("我的翻倍豆").findOne().parent().child(3);
+            return one;
+        } else {
+            if (textContains("获得瓜分资格后").exists()) {
+                let two = textContains("获得瓜分资格后").findOne().parent().child(3);
+                return two;
+            } else {
+                return null;
+            }
+        }
+    }
+}
 
 function task_click(find_num) {
     if (text("再玩玩").exists()) {
@@ -81,7 +101,6 @@ function red_packet(red_package, click_num) {
         if (i >= click_num) {
             break;
         }
-        // press(556, 922, random(3000, 5000));
         press(red_package.centerX(), red_package.centerY(), random(3000, 5000));
         sleep(1000);
         textContains("继续玩").waitFor();
